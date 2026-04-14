@@ -53,6 +53,18 @@ pip install -r requirements.txt
 python main.py
 ```
 ---
+## ⚠️ Note on Model & Dataset
+
+Due to file size limitations, the trained model and dataset are not included in this repository.
+
+You can:
+- Train the model using the provided training script with your own dataset
+- Or place your own trained model file in the project directory:
+  - `deepattend.keras`
+
+Dataset should follow the structure described above.
+
+---
 ## Model Details
 
 - Model: MobileNetV2
