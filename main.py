@@ -10,7 +10,6 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
-# ===================== LOAD MODEL =====================
 model = tf.keras.models.load_model(
     "DeepAttend.keras",
     compile=False
@@ -27,7 +26,6 @@ face_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
 )
 
-# ===================== GLOBALS =====================
 cap = None
 running = False
 attendance = {}
@@ -36,7 +34,6 @@ stable_start = None
 ready_to_capture = False
 current_detected = None
 
-# ===================== GUI =====================
 root = Tk()
 root.title("Attendance System")
 root.geometry("900x700")
@@ -47,7 +44,6 @@ video_label.pack()
 status_label = Label(root, text="Status: Idle", font=("Arial", 14))
 status_label.pack(pady=10)
 
-# ===================== CAMERA LOOP =====================
 def start_camera():
     global cap, running
     cap = cv2.VideoCapture(0)
@@ -103,7 +99,6 @@ def update_frame():
         cv2.putText(display_frame, text, (x, y-10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
 
-    # ===================== STABILITY LOGIC =====================
     current_time = time.time()
 
     if detected_label is not None:
@@ -123,7 +118,6 @@ def update_frame():
         current_detected = None
         status_label.config(text="Face not recognized")
 
-    # ===================== SHOW FRAME =====================
     img = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
     img = Image.fromarray(img)
     imgtk = ImageTk.PhotoImage(image=img)
@@ -132,7 +126,6 @@ def update_frame():
 
     root.after(10, update_frame)
 
-# ===================== CAPTURE =====================
 def capture_attendance():
     global attendance
 
@@ -155,7 +148,6 @@ def capture_attendance():
     else:
         messagebox.showwarning("Warning", f"{student_id} already marked today")
 
-# ===================== SAVE =====================
 def save_attendance():
     if not attendance:
         messagebox.showwarning("Warning", "No attendance to save")
@@ -167,7 +159,6 @@ def save_attendance():
 
     messagebox.showinfo("Saved", f"Attendance saved as {filename}")
 
-# ===================== BUTTONS =====================
 btn_frame = Frame(root)
 btn_frame.pack(pady=20)
 
@@ -176,5 +167,4 @@ Button(btn_frame, text="Capture", command=capture_attendance, width=15).grid(row
 Button(btn_frame, text="Save CSV", command=save_attendance, width=15).grid(row=0, column=2, padx=10)
 Button(btn_frame, text="Exit", command=root.quit, width=15).grid(row=0, column=3, padx=10)
 
-# ===================== RUN =====================
 root.mainloop()
